@@ -10,6 +10,8 @@ import boto3
 import tempfile
 import logging
 import argparse
+from botocore.config import Config
+from botocore import UNSIGNED
 from urllib.parse import urlparse
 
 parser = argparse.ArgumentParser(desc)
@@ -34,7 +36,7 @@ def parse_s3_path(s3_path):
     return parse_result.netloc or "commoncrawl", parse_result.path
 
 # Create s3 client
-s3 = boto3.client("s3")
+s3 = boto3.client("s3", config=Config(signature_version=UNSIGNED))
 
 # Setup output writer (to stdout)
 out = warc.WARCFile(fileobj=sys.stdout.buffer, mode="wb")

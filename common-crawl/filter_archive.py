@@ -10,6 +10,8 @@ import boto3
 import concurrent.futures
 import subprocess
 import tqdm
+from botocore.config import Config
+from botocore import UNSIGNED
 from utils import TqdmLoggingHandler
 
 parser = argparse.ArgumentParser(desc)
@@ -36,7 +38,7 @@ def process_wet(wet_path):
 
 
 def get_wet_files(archive_name):
-    s3 = boto3.resource('s3')
+    s3 = boto3.resource('s3', config=Config(signature_version=UNSIGNED))
     obj = s3.Object("commoncrawl", f"crawl-data/{archive_name}/wet.paths.gz")
     compressed_data = obj.get()['Body'].read()
     return zlib.decompress(compressed_data, 16+zlib.MAX_WBITS).decode("utf-8").split()
