@@ -28,7 +28,7 @@ def record_filter_predicate(record: warc.WARCRecord):
     Return True if record is to be kept, otherwise False
     """
     return "WARC-Identified-Content-Language" in record.header and \
-           "swe" in record.header["WARC-Identified-Content-Language"]
+           "swe" == record.header["WARC-Identified-Content-Language"]
 
 
 def parse_s3_path(s3_path):
