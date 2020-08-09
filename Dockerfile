@@ -7,4 +7,5 @@ WORKDIR /opt/project
 
 RUN pip install warc3-wet \
 				boto3 \
-				tqdm
+				tqdm \
+				awscli

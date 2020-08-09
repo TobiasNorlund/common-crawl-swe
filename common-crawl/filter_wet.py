@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 desc="""
 Script to download and parse a common crawl WET file and filter out all documents where the identified
 languages includes swedish (swe), and output these to stdout
