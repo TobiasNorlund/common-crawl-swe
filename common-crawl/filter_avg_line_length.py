@@ -8,10 +8,7 @@ parser = argparse.ArgumentParser("Filter records whose average line length is sh
 parser.add_argument("threshold", type=int)
 params = parser.parse_args()
 
-def record_filter_predicate(payload):
-    """
-    Return True if record is to be kept, otherwise False
-    """
+def filter_predicate(payload):
     line_lengths = [len(line)
                     for line in payload.decode("utf-8").split("\n")]
     return statistics.mean(line_lengths) > params.threshold
@@ -21,5 +18,5 @@ output_warc_file = warc.WARCFile(fileobj=sys.stdout.buffer, mode="wb")
 
 for record in input_warc_file:
     payload = record.payload.read()
-    if record_filter_predicate(payload):
-        output_warc_file.write_record(warc.WARCRecord(record.header, payload, defaults=False))
+    if filter_predicate(payload):
+        output_warc_file.write_record(warc.WARCRecord(record.header, payload))

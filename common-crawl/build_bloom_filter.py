@@ -23,7 +23,7 @@ num_duplicates = 0
 for record in input_warc_file:
     for line in record.payload:
         # Only add lines to second bloom filter if already seen
-        if line in bf1:
+        if line in bf1 and line not in bf2:
             bf2.add(line)
             num_duplicates += 1
         # Add all lines to first bloom filter

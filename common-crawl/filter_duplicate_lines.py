@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 import warc
 import argparse
-from pybloomfilter import BloomFilter
 import sys
+from pybloomfilter import BloomFilter
+from utils import reset_warc_header
 
 parser = argparse.ArgumentParser("Filter lines that exists in a bloom filter")
 parser.add_argument("bloom_filter", help="Path to saved bloom filter")
@@ -25,7 +26,7 @@ for record in input_warc_file:
             output_payload += line
         else:
             num_skipped += 1
-    output_warc_file.write_record(warc.WARCRecord(record.header, output_payload, defaults=False))
+    output_warc_file.write_record(warc.WARCRecord(reset_warc_header(record.header), output_payload))
 
 if params.verbose:
     sys.stderr.write(f"Duplicate filter: Removed {num_skipped} lines ({num_skipped * 100 / num_lines:.2f}%)\n")
