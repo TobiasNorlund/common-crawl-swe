@@ -9,5 +9,6 @@ set -x
 docker run --rm -it \
   -v $PROJECT_ROOT:/opt/project \
   -v /tmp:/tmp \
+  -v /dev/shm:/dev/shm \
   $USER_MAP \
   $DOCKER_IMAGE_NAME bash
