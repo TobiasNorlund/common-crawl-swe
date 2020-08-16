@@ -22,12 +22,10 @@ num_lines = 0
 num_duplicates = 0
 for record in input_warc_file:
     for line in record.payload:
-        # Only add lines to second bloom filter if already seen
-        if line in bf1 and line not in bf2:
-            bf2.add(line)
-            num_duplicates += 1
-        # Add all lines to first bloom filter
-        bf1.add(line)
-        num_lines += 1
+        if bf1.add(line):
+            # line was already present in bf1
+            if not bf2.add(line):
+                # line was not present in bf2 => second time encountered
+                num_duplicates += 1
 
-sys.stderr.write(f"Found {num_duplicates} unique lines occurring at least twice (probably)\n")
+sys.stderr.write(f"Found {num_duplicates} unique lines (probably) occurring at least twice of in total {num_lines} lines\n")
