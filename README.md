@@ -32,8 +32,8 @@ aws s3 cp --no-sign-request s3://commoncrawl/crawl-data/CC-MAIN-2020-29/wet.path
 ```bash
 ##  Download archive and do initial language filter
 mkdir -p ../data/CC-MAIN-2020-29
-aws s3 cp --no-sign-request s3://commoncrawl/crawl-data/CC-MAIN-2020-29/wet.paths.gz - | gzip -d \
-    parallel --joblog ../data/CC-MAIN-2020-29/joblog --bar --resume --resume-failed --jobs 32 \
+aws s3 cp --no-sign-request s3://commoncrawl/crawl-data/CC-MAIN-2020-29/wet.paths.gz - | gzip -d | \
+    parallel --joblog ../data/CC-MAIN-2020-29/joblog --bar --resume --resume-failed --jobs 64 \
         aws s3 cp --no-sign-request s3://commoncrawl/{} - '|' gzip -d '|' ./filter_language.py swe > ../data/CC-MAIN-2020-29/data.swe.wet
 
 ## Build bloom filter to filter duplicates
