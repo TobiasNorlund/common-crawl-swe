@@ -37,7 +37,7 @@ aws s3 cp --no-sign-request s3://commoncrawl/crawl-data/CC-MAIN-2020-29/wet.path
         aws s3 cp --no-sign-request s3://commoncrawl/{} - '|' gzip -d '|' ./filter_language.py swe > ../data/CC-MAIN-2020-29/data.swe.wet
 
 ## Build bloom filter to filter duplicates
-NUM_LINES=$(wc -l ../data/CC-MAIN-2020-29/data.swe.wet)
+NUM_LINES=$(cat ../data/CC-MAIN-2020-29/data.swe.wet | wc -l)
 cat ../data/CC-MAIN-2020-29/data.swe.wet | tqdm --bytes | ./build_bloom_filter.py --output /dev/shm/filter.bloom --capacity $NUM_LINES --false-positive-prob 1e-4
 
 ## Remove duplicate lines and filter short records

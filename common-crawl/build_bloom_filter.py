@@ -27,5 +27,6 @@ for record in input_warc_file:
             if not bf2.add(line):
                 # line was not present in bf2 => second time encountered
                 num_duplicates += 1
+        num_lines += 1
 
 sys.stderr.write(f"Found {num_duplicates} unique lines (probably) occurring at least twice of in total {num_lines} lines\n")
